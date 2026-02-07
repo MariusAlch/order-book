@@ -45,6 +45,15 @@ https://698765a74df2730008410b5b--melodic-kheer-59b025.netlify.app/
 
 ---
 
+### Assumptions
+
+- Assumes 1 USDT is always equal to 1 USD
+- Assumes stable network connectivity; basic error handling is in place, but advanced reconnection or backfilling logic is out of scope.
+- Supports a fixed, predefined set of markets as required by the task.
+- This implementation focuses on visual and functional parity, not trading accuracy or production-grade risk handling.
+
+---
+
 ### Bonus Challenges
 
 Bonus features were not implemented due to time constraints. The focus was on delivering the core requirements within the suggested time frame.
