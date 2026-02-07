@@ -22,14 +22,13 @@ export type AggregationLevel = "0.01" | "0.1" | "1" | "10" | "50" | "100";
 export type DepthVisualization = "amount" | "cumulative";
 
 export interface OrderBookSettings {
+  market: MarketSymbol;
   showBuySellRatio: boolean;
   rounding: boolean;
   depthVisualization: DepthVisualization;
 }
 
 export type MarketSymbol = "BTC/USDT" | "ETH/USDT" | "PAXG/USDT";
-
-export const MARKETS: MarketSymbol[] = ["BTC/USDT", "ETH/USDT", "PAXG/USDT"];
 
 export interface BinanceDepthSnapshot {
   lastUpdateId: number;

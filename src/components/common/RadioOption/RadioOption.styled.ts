@@ -14,7 +14,7 @@ export const Circle = styled.div<{ $checked: boolean }>`
   height: 16px;
   border-radius: 50%;
   border: 2px solid
-    ${({ $checked }) => ($checked ? colors.buy : colors.textTertiary)};
+    ${({ $checked }) => ($checked ? colors.textPrimary : colors.textTertiary)};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,7 +25,7 @@ export const Dot = styled.div`
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: ${colors.buy};
+  background-color: ${colors.textPrimary};
 `;
 
 export const LabelText = styled.span`

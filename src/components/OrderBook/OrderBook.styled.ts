@@ -2,8 +2,8 @@ import styled, { keyframes } from "styled-components";
 import { colors } from "constants/colors";
 
 export const Container = styled.div`
-  height: 860px;
-  width: 280px;
+  height: 875px;
+  width: 340px;
   background-color: ${colors.bgPanel};
   border: 1px solid ${colors.borderSubtle};
   border-radius: 12px;
@@ -12,11 +12,11 @@ export const Container = styled.div`
 `;
 
 export const Header = styled.div`
-  height: 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 12px 0;
+  padding: 8px 12px;
+  border-bottom: 1px solid ${colors.border};
 `;
 
 export const HeaderLeft = styled.div`
@@ -26,7 +26,7 @@ export const HeaderLeft = styled.div`
 `;
 
 export const Title = styled.h2`
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   color: ${colors.textPrimary};
   letter-spacing: 0.025em;

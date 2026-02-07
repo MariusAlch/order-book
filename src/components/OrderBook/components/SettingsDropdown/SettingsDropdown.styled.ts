@@ -5,16 +5,22 @@ export const Wrapper = styled.div`
   position: relative;
 `;
 
-export const ToggleButton = styled.button`
+export const Label = styled.span`
   color: ${colors.textTertiary};
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: color 0.15s;
 
   &:hover {
     color: ${colors.textPrimary};
   }
+`;
+
+export const DropdownToggle = styled.button`
+  color: ${colors.textTertiary};
+  background: none;
+  border: none;
+  &:hover {
+    color: ${colors.textPrimary};
+  }
+  cursor: pointer;
 `;
 
 export const Panel = styled.div`
@@ -24,21 +30,28 @@ export const Panel = styled.div`
   z-index: 50;
   width: 200px;
   background-color: ${colors.bgElevated};
-  border: 1px solid ${colors.border};
   border-radius: 8px;
   box-shadow: ${colors.dropShadow};
   padding: 8px 0;
 `;
 
 export const SectionHeader = styled.div`
-  padding: 6px 12px;
+  padding: 8px 12px;
   color: ${colors.textTertiary};
   font-size: 12px;
   font-weight: 500;
 `;
 
-export const OptionRow = styled.div`
-  padding: 6px 12px;
+export const ToggleButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+
+  padding: 12px;
+  &:hover {
+    background-color: ${colors.hoverBg};
+  }
 `;
 
 export const Divider = styled.div`

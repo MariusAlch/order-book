@@ -14,8 +14,8 @@ export function CheckboxOption({
 }: CheckboxOptionProps) {
   return (
     <Label onClick={() => onChange(!checked)}>
-      <LabelText>{label}</LabelText>
       <Box $checked={checked}>{checked && <Check size={14} />}</Box>
+      <LabelText>{label}</LabelText>
     </Label>
   );
 }

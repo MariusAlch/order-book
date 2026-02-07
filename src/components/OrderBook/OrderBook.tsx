@@ -4,7 +4,6 @@ import type {
   ViewMode,
   AggregationLevel,
   OrderBookSettings,
-  MarketSymbol,
 } from "types/orderbook";
 import { parseMarketSymbol } from "utils/orderbook";
 import { useBinanceOrderBook } from "hooks/useBinanceOrderBook";
@@ -25,7 +24,6 @@ import {
 } from "./OrderBook.styled";
 import {
   AggregationDropdown,
-  MarketSelector,
   MidPriceSection,
   OrderBookRow,
   RatioBar,
@@ -34,6 +32,7 @@ import {
 } from "./components";
 
 const DEFAULT_SETTINGS: OrderBookSettings = {
+  market: "BTC/USDT",
   showBuySellRatio: true,
   rounding: true,
   depthVisualization: "amount",
@@ -42,15 +41,14 @@ const DEFAULT_SETTINGS: OrderBookSettings = {
 export function OrderBook() {
   const [viewMode, setViewMode] = useState<ViewMode>("both");
   const [aggregation, setAggregation] = useState<AggregationLevel>("0.01");
-  const [market, setMarket] = useState<MarketSymbol>("BTC/USDT");
   const [settings, setSettings] = useState<OrderBookSettings>(DEFAULT_SETTINGS);
 
   const { orderBookData } = useBinanceOrderBook({
-    symbol: market,
+    symbol: settings.market,
     aggregation,
   });
 
-  const { base, quote } = parseMarketSymbol(market);
+  const { base, quote } = parseMarketSymbol(settings.market);
 
   const getMaxTotal = useCallback(
     (entries: OrderBookEntry[]) => {
@@ -80,7 +78,6 @@ export function OrderBook() {
       <Header>
         <HeaderLeft>
           <Title>Order Book</Title>
-          <MarketSelector value={market} onChange={setMarket} />
           {!orderBookData && <ConnectingBadge>Connecting...</ConnectingBadge>}
         </HeaderLeft>
         <SettingsDropdown settings={settings} onSettingsChange={setSettings} />

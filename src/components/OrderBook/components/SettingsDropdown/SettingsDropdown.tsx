@@ -1,16 +1,17 @@
 import { useState, useRef } from "react";
 import type { OrderBookSettings } from "types/orderbook";
+import { MARKETS } from "constants/markets";
 import { useClickOutside } from "hooks/useClickOutside";
 import { Ellipsis } from "lucide-react";
 import { CheckboxOption } from "components/common/CheckboxOption";
 import { RadioOption } from "components/common/RadioOption";
 import {
   Wrapper,
-  ToggleButton,
   Panel,
   SectionHeader,
-  OptionRow,
+  ToggleButton,
   Divider,
+  DropdownToggle,
 } from "./SettingsDropdown.styled";
 
 interface SettingsDropdownProps {
@@ -31,46 +32,59 @@ export function SettingsDropdown({
 
   return (
     <Wrapper ref={ref}>
-      <ToggleButton onClick={() => setIsOpen((prev) => !prev)}>
+      <DropdownToggle onClick={() => setIsOpen((prev) => !prev)}>
         <Ellipsis size={20} />
-      </ToggleButton>
+      </DropdownToggle>
 
       {isOpen && (
         <Panel>
+          <SectionHeader>Market</SectionHeader>
+          {MARKETS.map((market) => (
+            <ToggleButton key={market}>
+              <RadioOption
+                checked={settings.market === market}
+                onChange={() => update({ market: market })}
+                label={market}
+              />
+            </ToggleButton>
+          ))}
+
+          <Divider />
+
           <SectionHeader>Order Book Display</SectionHeader>
 
-          <OptionRow>
+          <ToggleButton>
             <CheckboxOption
               checked={settings.showBuySellRatio}
               onChange={(checked) => update({ showBuySellRatio: checked })}
               label="Show Buy/Sell Ratio"
             />
-          </OptionRow>
-          <OptionRow>
+          </ToggleButton>
+          <ToggleButton>
             <CheckboxOption
               checked={settings.rounding}
               onChange={(checked) => update({ rounding: checked })}
               label="Rounding"
             />
-          </OptionRow>
+          </ToggleButton>
 
           <Divider />
 
           <SectionHeader>Book Depth Visualization</SectionHeader>
-          <OptionRow>
+          <ToggleButton>
             <RadioOption
               checked={settings.depthVisualization === "amount"}
               onChange={() => update({ depthVisualization: "amount" })}
               label="Amount"
             />
-          </OptionRow>
-          <OptionRow>
+          </ToggleButton>
+          <ToggleButton>
             <RadioOption
               checked={settings.depthVisualization === "cumulative"}
               onChange={() => update({ depthVisualization: "cumulative" })}
               label="Cumulative"
             />
-          </OptionRow>
+          </ToggleButton>
         </Panel>
       )}
     </Wrapper>

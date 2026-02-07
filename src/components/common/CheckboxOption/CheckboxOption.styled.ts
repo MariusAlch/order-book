@@ -4,7 +4,6 @@ import { colors } from "constants/colors";
 export const Label = styled.label`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 8px;
   cursor: pointer;
   user-select: none;
@@ -15,9 +14,9 @@ export const Box = styled.div<{ $checked: boolean }>`
   height: 16px;
   border-radius: 4px;
   border: 1px solid
-    ${({ $checked }) => ($checked ? colors.buy : colors.textTertiary)};
+    ${({ $checked }) => ($checked ? colors.textPrimary : colors.textTertiary)};
   background-color: ${({ $checked }) =>
-    $checked ? colors.buy : "transparent"};
+    $checked ? colors.textPrimary : "transparent"};
   display: flex;
   align-items: center;
   justify-content: center;

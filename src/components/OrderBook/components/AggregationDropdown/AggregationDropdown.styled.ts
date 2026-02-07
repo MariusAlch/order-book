@@ -30,16 +30,15 @@ export const Menu = styled.div`
   margin-top: 4px;
   z-index: 50;
   background-color: ${colors.bgElevated};
-  border: 1px solid ${colors.border};
   border-radius: 8px;
   box-shadow: ${colors.dropShadow};
-  padding: 4px 0;
-  min-width: 60px;
+  padding: 8px 0;
+  min-width: 100px;
 `;
 
 export const MenuItem = styled.button<{ $active: boolean }>`
   width: 100%;
-  padding: 6px 12px;
+  padding: 12px 12px;
   text-align: right;
   font-size: 12px;
   font-variant-numeric: tabular-nums;
