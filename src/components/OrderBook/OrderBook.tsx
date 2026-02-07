@@ -63,7 +63,7 @@ export function OrderBook() {
     [settings.depthVisualization],
   );
 
-  const maxRows = viewMode === "both" ? 14 : 28;
+  const maxRows = viewMode === "both" ? 17 : 34;
   const displayedAsks = orderBookData?.asks.slice(-maxRows) ?? [];
   const displayedBids = orderBookData?.bids.slice(0, maxRows) ?? [];
   const rawMaxAsk = getMaxTotal(displayedAsks);

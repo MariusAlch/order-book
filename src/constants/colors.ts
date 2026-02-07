@@ -1,6 +1,6 @@
 export const colors = {
-  buy: "#2ED3A7",
-  sell: "#FF4D57",
+  buy: "#2ebd85",
+  sell: "#f6465d",
 
   textPrimary: "#E6EDF6",
   textSecondary: "#9AA6B2",

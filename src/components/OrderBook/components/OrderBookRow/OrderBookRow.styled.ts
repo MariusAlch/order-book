@@ -3,7 +3,7 @@ import { colors } from "constants/colors";
 
 export const RowWrapper = styled.div`
   position: relative;
-  height: 26px;
+  height: 20px;
   display: flex;
   align-items: center;
   padding: 0 12px;

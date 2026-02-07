@@ -2,8 +2,8 @@ import styled, { keyframes } from "styled-components";
 import { colors } from "constants/colors";
 
 export const Container = styled.div`
-  height: 931px;
-  width: 360px;
+  height: 860px;
+  width: 280px;
   background-color: ${colors.bgPanel};
   border: 1px solid ${colors.borderSubtle};
   border-radius: 12px;

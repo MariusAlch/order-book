@@ -18,7 +18,7 @@ export const LeftGroup = styled.div`
 `;
 
 export const MidPrice = styled.span`
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 `;
