@@ -4,6 +4,7 @@ import type {
   DepthVisualization,
 } from "types/orderbook";
 import { formatPrice, formatTotal } from "utils/format";
+import { colors } from "constants/colors";
 import {
   RowWrapper,
   DepthBar,
@@ -24,12 +25,12 @@ interface OrderBookRowProps {
 
 const ROW_COLORS = {
   ask: {
-    text: "#FF4D57",
-    bar: "rgba(255, 77, 87, 0.18)",
+    text: colors.sell,
+    bar: colors.sellBarBg,
   },
   bid: {
-    text: "#2ED3A7",
-    bar: "rgba(46, 211, 167, 0.16)",
+    text: colors.buy,
+    bar: colors.buyBarBg,
   },
 } as const;
 

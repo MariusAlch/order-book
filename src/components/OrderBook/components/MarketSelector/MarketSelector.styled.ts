@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { colors } from "constants/colors";
 
 export const Wrapper = styled.div`
   position: relative;
@@ -10,14 +11,14 @@ export const TriggerButton = styled.button`
   gap: 4px;
   font-size: 14px;
   font-weight: 600;
-  color: #e6edf6;
+  color: ${colors.textPrimary};
   background: none;
   border: none;
   cursor: pointer;
   transition: color 0.15s;
 
   &:hover {
-    color: #ffffff;
+    color: ${colors.white};
   }
 `;
 
@@ -27,12 +28,10 @@ export const Menu = styled.div`
   left: 0;
   margin-top: 4px;
   z-index: 50;
-  background-color: #1a2029;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: ${colors.bgElevated};
+  border: 1px solid ${colors.border};
   border-radius: 8px;
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  box-shadow: ${colors.dropShadow};
   padding: 4px 0;
   min-width: 120px;
 `;
@@ -49,9 +48,10 @@ export const MenuItem = styled.button<{ $active: boolean }>`
   background: none;
   border: none;
   cursor: pointer;
-  color: ${({ $active }) => ($active ? "#E6EDF6" : "#9AA6B2")};
+  color: ${({ $active }) =>
+    $active ? colors.textPrimary : colors.textSecondary};
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: ${colors.hoverBg};
   }
 `;

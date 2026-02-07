@@ -1,4 +1,5 @@
 import { ArrowUp, ArrowDown, ChevronRight } from "lucide-react";
+import { colors } from "constants/colors";
 import {
   Wrapper,
   LeftGroup,
@@ -18,7 +19,7 @@ export function MidPriceSection({
   direction,
   secondaryPrice,
 }: MidPriceSectionProps) {
-  const color = direction === "up" ? "#2ED3A7" : "#FF4D57";
+  const color = direction === "up" ? colors.buy : colors.sell;
 
   return (
     <Wrapper>

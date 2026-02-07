@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+import { colors } from "constants/colors";
 
 export const RowWrapper = styled.div`
   position: relative;
@@ -9,7 +10,7 @@ export const RowWrapper = styled.div`
   cursor: pointer;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: ${colors.rowHoverBg};
   }
 `;
 
@@ -37,11 +38,11 @@ export const PriceCell = styled.div`
 export const AmountCell = styled.div`
   width: 30%;
   text-align: right;
-  color: #E6EDF6;
+  color: ${colors.textPrimary};
 `;
 
 export const TotalCell = styled.div`
   width: 30%;
   text-align: right;
-  color: #E6EDF6;
+  color: ${colors.textPrimary};
 `;

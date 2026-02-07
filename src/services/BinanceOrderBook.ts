@@ -133,7 +133,6 @@ function projectOrderBookData(
 
 export interface OrderBookCallbacks {
   onData: (data: OrderBookData) => void;
-  onConnectionChange: (connected: boolean) => void;
 }
 
 export class BinanceOrderBook {
@@ -183,7 +182,6 @@ export class BinanceOrderBook {
 
     ws.onopen = () => {
       if (this.disposed) return;
-      this.callbacks.onConnectionChange(true);
       ws.send(
         JSON.stringify({
           method: "SUBSCRIBE",
@@ -208,12 +206,10 @@ export class BinanceOrderBook {
     ws.onerror = () => {
       if (this.disposed) return;
       console.error("WebSocket connection error");
-      this.callbacks.onConnectionChange(false);
     };
 
     ws.onclose = () => {
       if (this.disposed) return;
-      this.callbacks.onConnectionChange(false);
       this.scheduleReconnect();
     };
 

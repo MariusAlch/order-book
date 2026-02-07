@@ -3,7 +3,7 @@ import {
   OrderBookBothIcon,
   OrderBookBidsIcon,
   OrderBookAsksIcon,
-} from "components/icons";
+} from "components/Icons";
 import { ButtonGroup, ModeButton } from "./ViewModeSelector.styled";
 
 interface ViewModeSelectorProps {

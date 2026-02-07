@@ -44,7 +44,7 @@ export function OrderBook() {
   const [market, setMarket] = useState<MarketSymbol>("BTC/USDT");
   const [settings, setSettings] = useState<OrderBookSettings>(DEFAULT_SETTINGS);
 
-  const { data, isConnected } = useBinanceOrderBook({
+  const { orderBookData } = useBinanceOrderBook({
     symbol: market,
     aggregation,
   });
@@ -63,8 +63,8 @@ export function OrderBook() {
   );
 
   const maxRows = viewMode === "both" ? 14 : 28;
-  const displayedAsks = data?.asks.slice(-maxRows) ?? [];
-  const displayedBids = data?.bids.slice(0, maxRows) ?? [];
+  const displayedAsks = orderBookData?.asks.slice(-maxRows) ?? [];
+  const displayedBids = orderBookData?.bids.slice(0, maxRows) ?? [];
   const rawMaxAsk = getMaxTotal(displayedAsks);
   const rawMaxBid = getMaxTotal(displayedBids);
   const sharedMax = viewMode === "both" ? Math.max(rawMaxAsk, rawMaxBid) : 0;
@@ -80,7 +80,7 @@ export function OrderBook() {
         <HeaderLeft>
           <Title>Order Book</Title>
           <MarketSelector value={market} onChange={setMarket} />
-          {!isConnected && <ConnectingBadge>Connecting...</ConnectingBadge>}
+          {!orderBookData && <ConnectingBadge>Connecting...</ConnectingBadge>}
         </HeaderLeft>
         <SettingsDropdown settings={settings} onSettingsChange={setSettings} />
       </Header>
@@ -114,9 +114,9 @@ export function OrderBook() {
         )}
 
         <MidPriceSection
-          midPrice={data?.mid.price ?? "--"}
-          direction={data?.mid.direction ?? "up"}
-          secondaryPrice={data?.mid.priceFormattedSecondary ?? "--"}
+          midPrice={orderBookData?.mid.price ?? "--"}
+          direction={orderBookData?.mid.direction ?? "up"}
+          secondaryPrice={orderBookData?.mid.priceFormattedSecondary ?? "--"}
         />
 
         {showBids && (
@@ -137,8 +137,8 @@ export function OrderBook() {
       </BookContent>
 
       <RatioBar
-        bidPct={data?.stats.bidPct ?? 50}
-        askPct={data?.stats.askPct ?? 50}
+        bidPct={orderBookData?.stats.bidPct ?? 50}
+        askPct={orderBookData?.stats.askPct ?? 50}
         visible={settings.showBuySellRatio}
       />
     </Container>

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { colors } from "constants/colors";
 
 export const Wrapper = styled.div`
   padding: 8px 12px;
@@ -8,21 +9,21 @@ export const Wrapper = styled.div`
 `;
 
 export const BidLabel = styled.span`
-  color: #2ed3a7;
+  color: ${colors.buy};
   font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
 `;
 
 export const AskLabel = styled.span`
-  color: #ff4d57;
+  color: ${colors.sell};
   font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
 `;
 
 export const Letter = styled.span`
-  color: #eaecef;
+  color: ${colors.textMuted};
 `;
 
 export const BarTrack = styled.div`
@@ -34,11 +35,11 @@ export const BarTrack = styled.div`
 `;
 
 export const BidBar = styled.div`
-  background-color: #2ed3a7;
+  background-color: ${colors.buy};
   transition: width 0.3s;
 `;
 
 export const AskBar = styled.div`
-  background-color: #ff4d57;
+  background-color: ${colors.sell};
   transition: width 0.3s;
 `;

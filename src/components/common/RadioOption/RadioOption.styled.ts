@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { colors } from "constants/colors";
 
 export const Label = styled.label`
   display: flex;
@@ -12,7 +13,8 @@ export const Circle = styled.div<{ $checked: boolean }>`
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  border: 2px solid ${({ $checked }) => ($checked ? "#2ED3A7" : "#6E7B87")};
+  border: 2px solid
+    ${({ $checked }) => ($checked ? colors.buy : colors.textTertiary)};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,10 +25,10 @@ export const Dot = styled.div`
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #2ed3a7;
+  background-color: ${colors.buy};
 `;
 
 export const LabelText = styled.span`
-  color: #e6edf6;
+  color: ${colors.textPrimary};
   font-size: 12px;
 `;

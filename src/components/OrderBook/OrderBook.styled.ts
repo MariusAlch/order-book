@@ -1,10 +1,11 @@
 import styled, { keyframes } from "styled-components";
+import { colors } from "constants/colors";
 
 export const Container = styled.div`
   height: 931px;
   width: 360px;
-  background-color: #11161d;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: ${colors.bgPanel};
+  border: 1px solid ${colors.borderSubtle};
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -27,7 +28,7 @@ export const HeaderLeft = styled.div`
 export const Title = styled.h2`
   font-size: 14px;
   font-weight: 600;
-  color: #e6edf6;
+  color: ${colors.textPrimary};
   letter-spacing: 0.025em;
 `;
 
@@ -38,8 +39,8 @@ const pulse = keyframes`
 
 export const ConnectingBadge = styled.span`
   font-size: 10px;
-  color: #ff4d57;
-  animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  color: ${colors.sell};
+  animation: ${pulse} 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 `;
 
 export const Controls = styled.div`
@@ -58,7 +59,7 @@ export const ColumnHeaders = styled.div`
   padding: 0 12px;
   margin-top: 8px;
   font-size: 12px;
-  color: #9aa6b2;
+  color: ${colors.textSecondary};
 `;
 
 export const ColPrice = styled.div`

@@ -11,14 +11,10 @@ interface Options {
   aggregation: AggregationLevel;
 }
 
-interface Result {
-  data: OrderBookData | null;
-  isConnected: boolean;
-}
-
-export function useBinanceOrderBook({ symbol, aggregation }: Options): Result {
-  const [data, setData] = useState<OrderBookData | null>(null);
-  const [isConnected, setIsConnected] = useState(false);
+export function useBinanceOrderBook({ symbol, aggregation }: Options) {
+  const [orderBookData, setOrderBookData] = useState<OrderBookData | null>(
+    null,
+  );
 
   const bookRef = useRef<BinanceOrderBook | null>(null);
 
@@ -28,8 +24,7 @@ export function useBinanceOrderBook({ symbol, aggregation }: Options): Result {
 
   useEffect(() => {
     const book = new BinanceOrderBook(symbol, aggregation, {
-      onData: setData,
-      onConnectionChange: setIsConnected,
+      onData: setOrderBookData,
     });
 
     bookRef.current = book;
@@ -37,10 +32,10 @@ export function useBinanceOrderBook({ symbol, aggregation }: Options): Result {
     return () => {
       book.dispose();
       bookRef.current = null;
-      setData(null);
+      setOrderBookData(null);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [symbol]);
 
-  return { data, isConnected };
+  return { orderBookData };
 }
