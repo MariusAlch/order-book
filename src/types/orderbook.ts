@@ -1,0 +1,49 @@
+export interface OrderBookEntry {
+  price: number;
+  amount: number;
+  total: number;
+}
+
+export interface OrderBookData {
+  asks: OrderBookEntry[];
+  bids: OrderBookEntry[];
+  mid: {
+    price: string;
+    priceFormattedSecondary: string;
+    direction: "up" | "down";
+  };
+  stats: {
+    bidPct: number;
+    askPct: number;
+  };
+}
+
+export type ViewMode = "both" | "bids" | "asks";
+export type AggregationLevel = "0.01" | "0.1" | "1" | "10" | "50" | "100";
+export type DepthVisualization = "amount" | "cumulative";
+
+export interface OrderBookSettings {
+  showBuySellRatio: boolean;
+  rounding: boolean;
+  depthVisualization: DepthVisualization;
+}
+
+export type MarketSymbol = "BTC/USDT" | "ETH/USDT" | "PAXG/USDT";
+
+export const MARKETS: MarketSymbol[] = ["BTC/USDT", "ETH/USDT", "PAXG/USDT"];
+
+export interface BinanceDepthSnapshot {
+  lastUpdateId: number;
+  bids: [string, string][];
+  asks: [string, string][];
+}
+
+export interface BinanceDepthUpdateEvent {
+  e: "depthUpdate";
+  E: number;
+  s: string;
+  U: number;
+  u: number;
+  b: [string, string][];
+  a: [string, string][];
+}
