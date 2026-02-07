@@ -7,7 +7,6 @@ export const Wrapper = styled.div`
 
 export const ToggleButton = styled.button`
   color: ${colors.textTertiary};
-  padding: 4px;
   background: none;
   border: none;
   cursor: pointer;
@@ -23,7 +22,7 @@ export const Panel = styled.div`
   top: 32px;
   right: 0;
   z-index: 50;
-  width: 208px;
+  width: 200px;
   background-color: ${colors.bgElevated};
   border: 1px solid ${colors.border};
   border-radius: 8px;
