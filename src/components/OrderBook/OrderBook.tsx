@@ -42,6 +42,8 @@ export function OrderBook() {
   const [viewMode, setViewMode] = useState<ViewMode>("both");
   const [aggregation, setAggregation] = useState<AggregationLevel>("0.01");
   const [settings, setSettings] = useState<OrderBookSettings>(DEFAULT_SETTINGS);
+  const [hoveredAskIndex, setHoveredAskIndex] = useState<number | null>(null);
+  const [hoveredBidIndex, setHoveredBidIndex] = useState<number | null>(null);
 
   const { orderBookData } = useBinanceOrderBook({
     symbol: settings.market,
@@ -96,7 +98,7 @@ export function OrderBook() {
 
       <BookContent>
         {showAsks && (
-          <AsksSection>
+          <AsksSection onMouseLeave={() => setHoveredAskIndex(null)}>
             {displayedAsks.map((entry, index) => (
               <OrderBookRow
                 key={index}
@@ -106,6 +108,15 @@ export function OrderBook() {
                 depthVisualization={settings.depthVisualization}
                 aggregation={aggregation}
                 rounding={settings.rounding}
+                highlighted={
+                  hoveredAskIndex !== null && index >= hoveredAskIndex
+                }
+                dashedBorder={
+                  hoveredAskIndex !== null && index === hoveredAskIndex
+                    ? "top"
+                    : "none"
+                }
+                onMouseEnter={() => setHoveredAskIndex(index)}
               />
             ))}
           </AsksSection>
@@ -117,7 +128,7 @@ export function OrderBook() {
         />
 
         {showBids && (
-          <BidsSection>
+          <BidsSection onMouseLeave={() => setHoveredBidIndex(null)}>
             {displayedBids.map((entry, index) => (
               <OrderBookRow
                 key={index}
@@ -127,6 +138,15 @@ export function OrderBook() {
                 depthVisualization={settings.depthVisualization}
                 aggregation={aggregation}
                 rounding={settings.rounding}
+                highlighted={
+                  hoveredBidIndex !== null && index <= hoveredBidIndex
+                }
+                dashedBorder={
+                  hoveredBidIndex !== null && index === hoveredBidIndex
+                    ? "bottom"
+                    : "none"
+                }
+                onMouseEnter={() => setHoveredBidIndex(index)}
               />
             ))}
           </BidsSection>

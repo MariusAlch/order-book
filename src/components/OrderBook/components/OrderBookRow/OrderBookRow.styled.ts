@@ -1,17 +1,22 @@
 import styled from "styled-components";
 import { colors } from "constants/colors";
 
-export const RowWrapper = styled.div`
+export const RowWrapper = styled.div<{
+  $highlighted: boolean;
+  $dashedBorder: "top" | "bottom" | "none";
+}>`
   position: relative;
   height: 20px;
   display: flex;
   align-items: center;
   padding: 0 12px;
   cursor: pointer;
-
-  &:hover {
-    background-color: ${colors.rowHoverBg};
-  }
+  background-color: ${({ $highlighted }) =>
+    $highlighted ? colors.rowHoverBg : "transparent"};
+  border-top: ${({ $dashedBorder }) =>
+    $dashedBorder === "top" ? `1px dashed ${colors.border}` : "none"};
+  border-bottom: ${({ $dashedBorder }) =>
+    $dashedBorder === "bottom" ? `1px dashed ${colors.border}` : "none"};
 `;
 
 export const DepthBar = styled.div`

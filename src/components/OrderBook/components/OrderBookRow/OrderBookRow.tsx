@@ -21,6 +21,9 @@ interface OrderBookRowProps {
   depthVisualization: DepthVisualization;
   aggregation: AggregationLevel;
   rounding: boolean;
+  highlighted: boolean;
+  dashedBorder: "top" | "bottom" | "none";
+  onMouseEnter: () => void;
 }
 
 const ROW_COLORS = {
@@ -35,6 +38,9 @@ export function OrderBookRow({
   depthVisualization,
   aggregation,
   rounding,
+  highlighted,
+  dashedBorder,
+  onMouseEnter,
 }: OrderBookRowProps) {
   const depthValue =
     depthVisualization === "cumulative"
@@ -44,7 +50,11 @@ export function OrderBookRow({
   const color = ROW_COLORS[type];
 
   return (
-    <RowWrapper>
+    <RowWrapper
+      $highlighted={highlighted}
+      $dashedBorder={dashedBorder}
+      onMouseEnter={onMouseEnter}
+    >
       <DepthBar
         style={{
           width: `${depthPercentage}%`,
