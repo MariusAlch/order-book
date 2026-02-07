@@ -24,7 +24,6 @@ export const MidPrice = styled.span`
 `;
 
 export const SecondaryPrice = styled.span`
-  font-size: 12px;
   color: ${colors.textTertiary};
   font-variant-numeric: tabular-nums;
 `;

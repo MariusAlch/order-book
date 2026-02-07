@@ -10,14 +10,12 @@ export const Wrapper = styled.div`
 
 export const BidLabel = styled.span`
   color: ${colors.buy};
-  font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
 `;
 
 export const AskLabel = styled.span`
   color: ${colors.sell};
-  font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
 `;

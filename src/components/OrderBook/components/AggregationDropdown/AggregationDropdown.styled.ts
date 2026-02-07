@@ -10,7 +10,6 @@ export const TriggerButton = styled.button`
   align-items: center;
   gap: 4px;
   padding: 4px;
-  font-size: 12px;
   color: ${colors.textSecondary};
   background: none;
   border: none;
@@ -40,7 +39,6 @@ export const MenuItem = styled.button<{ $active: boolean }>`
   width: 100%;
   padding: 12px 12px;
   text-align: right;
-  font-size: 12px;
   font-variant-numeric: tabular-nums;
   display: flex;
   align-items: center;
@@ -54,5 +52,6 @@ export const MenuItem = styled.button<{ $active: boolean }>`
 
   &:hover {
     background-color: ${colors.hoverBg};
+    color: ${colors.textPrimary};
   }
 `;

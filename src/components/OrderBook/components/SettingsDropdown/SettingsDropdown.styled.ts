@@ -38,7 +38,6 @@ export const Panel = styled.div`
 export const SectionHeader = styled.div`
   padding: 8px 12px;
   color: ${colors.textTertiary};
-  font-size: 12px;
   font-weight: 500;
 `;
 

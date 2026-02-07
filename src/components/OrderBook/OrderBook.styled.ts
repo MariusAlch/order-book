@@ -58,7 +58,6 @@ export const ColumnHeaders = styled.div`
   height: 28px;
   padding: 0 12px;
   margin-top: 8px;
-  font-size: 12px;
   color: ${colors.textSecondary};
 `;
 

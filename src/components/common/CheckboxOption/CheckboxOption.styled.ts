@@ -27,5 +27,4 @@ export const Box = styled.div<{ $checked: boolean }>`
 
 export const LabelText = styled.span`
   color: ${colors.textPrimary};
-  font-size: 12px;
 `;
