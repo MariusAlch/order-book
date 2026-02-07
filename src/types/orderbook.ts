@@ -4,7 +4,7 @@ export interface OrderBookEntry {
   total: number;
 }
 
-export interface OrderBookData {
+export interface OrderBookSummary {
   asks: OrderBookEntry[];
   bids: OrderBookEntry[];
   mid: {
@@ -44,4 +44,10 @@ export interface BinanceDepthUpdateEvent {
   u: number;
   b: [string, string][];
   a: [string, string][];
+}
+
+export interface OrderBook {
+  bids: Map<string, string>;
+  asks: Map<string, string>;
+  lastUpdateId: number;
 }

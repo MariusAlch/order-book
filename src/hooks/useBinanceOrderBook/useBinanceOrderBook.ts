@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import type {
-  OrderBookData,
+  OrderBookSummary,
   MarketSymbol,
   AggregationLevel,
 } from "types/orderbook";
-import { BinanceOrderBook } from "services/BinanceOrderBook";
+import { BinanceOrderBook } from "./BinanceOrderBook";
 
 interface Options {
   symbol: MarketSymbol;
@@ -12,7 +12,7 @@ interface Options {
 }
 
 export function useBinanceOrderBook({ symbol, aggregation }: Options) {
-  const [orderBookData, setOrderBookData] = useState<OrderBookData | null>(
+  const [orderBookData, setOrderBookData] = useState<OrderBookSummary | null>(
     null,
   );
 
@@ -24,7 +24,7 @@ export function useBinanceOrderBook({ symbol, aggregation }: Options) {
 
   useEffect(() => {
     const book = new BinanceOrderBook(symbol, aggregation, {
-      onOrderBookDataPublish: setOrderBookData,
+      onOrderBookPublish: setOrderBookData,
     });
 
     bookRef.current = book;
