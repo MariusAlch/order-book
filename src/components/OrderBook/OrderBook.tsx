@@ -32,6 +32,7 @@ import {
   SettingsDropdown,
   ViewModeSelector,
 } from "./components";
+
 const DEFAULT_SETTINGS: OrderBookSettings = {
   showBuySellRatio: true,
   rounding: true,
@@ -114,9 +115,8 @@ export function OrderBook() {
         )}
 
         <MidPriceSection
-          midPrice={orderBookData?.mid.price ?? "--"}
+          midPrice={orderBookData?.mid.price}
           direction={orderBookData?.mid.direction ?? "up"}
-          secondaryPrice={orderBookData?.mid.priceFormattedSecondary ?? "--"}
         />
 
         {showBids && (
@@ -137,8 +137,8 @@ export function OrderBook() {
       </BookContent>
 
       <RatioBar
-        bidPct={orderBookData?.stats.bidPct ?? 50}
-        askPct={orderBookData?.stats.askPct ?? 50}
+        bidPct={orderBookData?.stats.bidPercentage ?? 50}
+        askPct={orderBookData?.stats.askPercentage ?? 50}
         visible={settings.showBuySellRatio}
       />
     </Container>

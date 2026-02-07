@@ -10,7 +10,6 @@ import { toApiSymbol } from "utils/orderbook";
 
 const WS_BASE = "wss://stream.binance.com:9443/ws";
 const REST_URL = "https://api.binance.com/api/v3/depth";
-const SNAPSHOT_LIMIT = 5000;
 const RECONNECT_DELAY_MS = 3000;
 const MAX_SNAPSHOT_RETRIES = 5;
 
@@ -89,26 +88,19 @@ function aggregateOrders(
   return result;
 }
 
-function formatMidPrice(value: number): string {
-  return value.toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-}
-
 function computeRatio(bids: OrderBookEntry[], asks: OrderBookEntry[]) {
   const bidVol = bids.reduce((sum, bid) => sum + bid.amount, 0);
   const askVol = asks.reduce((sum, ask) => sum + ask.amount, 0);
   const total = bidVol + askVol;
-  const bidPct = total > 0 ? (bidVol / total) * 100 : 50;
-  return { bidPct, askPct: 100 - bidPct };
+
+  const bidPercentage = total > 0 ? (bidVol / total) * 100 : 50;
+  return { bidPercentage, askPercentage: 100 - bidPercentage };
 }
 
 function projectOrderBookData(
   book: LocalOrderBook,
   aggregation: AggregationLevel,
-  lastPrice: number | null,
-  direction: "up" | "down",
+  prevMidPrice: number,
 ): OrderBookData {
   const aggValue = parseFloat(aggregation);
   const asks = aggregateOrders(book.asks, aggValue, true);
@@ -116,23 +108,19 @@ function projectOrderBookData(
 
   const bestBid = bids[0]?.price ?? 0;
   const bestAsk = asks[0]?.price ?? 0;
-  const midPrice =
-    lastPrice ?? (bestBid && bestAsk ? (bestBid + bestAsk) / 2 : 0);
+  const midPrice = bestBid && bestAsk ? (bestBid + bestAsk) / 2 : 0;
+  const direction = midPrice >= prevMidPrice ? "up" : "down";
 
   return {
     asks: [...asks].reverse(),
     bids,
-    mid: {
-      price: formatMidPrice(midPrice),
-      priceFormattedSecondary: `$${formatMidPrice(midPrice)}`,
-      direction,
-    },
+    mid: { price: midPrice, direction },
     stats: computeRatio(bids, asks),
   };
 }
 
-export interface OrderBookCallbacks {
-  onData: (data: OrderBookData) => void;
+interface OrderBookCallbacks {
+  onOrderBookDataPublish: (data: OrderBookData) => void;
 }
 
 export class BinanceOrderBook {
@@ -143,7 +131,7 @@ export class BinanceOrderBook {
   private ws: WebSocket | null = null;
   private reconnectTimer: number | null = null;
   private book: LocalOrderBook = createEmptyBook();
-  private ticker: { price: number; direction: "up" | "down" } | null = null;
+  private prevMidPrice = 0;
   private buffer: BinanceDepthUpdateEvent[] | null = [];
   private disposed = false;
 
@@ -161,7 +149,7 @@ export class BinanceOrderBook {
   setAggregation(aggregation: AggregationLevel): void {
     this.aggregation = aggregation;
     if (this.book.lastUpdateId > 0) {
-      this.publish(this.ticker?.direction ?? "up");
+      this.publish();
     }
   }
 
@@ -185,7 +173,7 @@ export class BinanceOrderBook {
       ws.send(
         JSON.stringify({
           method: "SUBSCRIBE",
-          params: [`${sym}@depth@1000ms`, `${sym}@ticker`],
+          params: [`${sym}@depth@1000ms`],
           id: 1,
         }),
       );
@@ -196,8 +184,7 @@ export class BinanceOrderBook {
       try {
         const msg = JSON.parse(event.data);
         if (msg.result !== undefined) return;
-        if (msg.e === "24hrTicker") this.handleTickerMessage(msg);
-        else if (msg.e === "depthUpdate") this.handleDepthMessage(msg);
+        if (msg.e === "depthUpdate") this.handleDepthMessage(msg);
       } catch (e) {
         console.error("WS parse error:", e);
       }
@@ -237,10 +224,11 @@ export class BinanceOrderBook {
   }
 
   private async initializeBook(): Promise<void> {
-    while (!this.disposed && this.buffer?.length === 0) {
+    if (this.disposed || !this.buffer) return;
+
+    while (this.buffer?.length === 0) {
       await delay(50);
     }
-    if (this.disposed || !this.buffer) return;
 
     const firstEvent = this.buffer[0]!;
     const snapshot = await this.fetchSnapshotWithRetry(firstEvent.U);
@@ -265,7 +253,7 @@ export class BinanceOrderBook {
 
     this.book = book;
     this.buffer = null;
-    this.publish("up");
+    this.publish();
   }
 
   private applySnapshot(snapshot: BinanceDepthSnapshot): LocalOrderBook {
@@ -279,7 +267,7 @@ export class BinanceOrderBook {
   private async fetchDepthSnapshot(): Promise<BinanceDepthSnapshot | null> {
     try {
       const res = await fetch(
-        `${REST_URL}?symbol=${toApiSymbol(this.symbol)}&limit=${SNAPSHOT_LIMIT}`,
+        `${REST_URL}?symbol=${toApiSymbol(this.symbol)}&limit=5000`,
       );
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return (await res.json()) as BinanceDepthSnapshot;
@@ -304,14 +292,6 @@ export class BinanceOrderBook {
     return null;
   }
 
-  private handleTickerMessage(msg: { c: string }): void {
-    const newPrice = parseFloat(msg.c);
-    const direction =
-      this.ticker !== null && newPrice < this.ticker.price ? "down" : "up";
-    this.ticker = { price: newPrice, direction };
-    if (this.buffer === null) this.publish(direction);
-  }
-
   private handleDepthMessage(depthEvent: BinanceDepthUpdateEvent): void {
     if (this.buffer !== null) {
       this.buffer.push(depthEvent);
@@ -327,18 +307,17 @@ export class BinanceOrderBook {
     }
 
     if (result === "ok") {
-      this.publish(this.ticker?.direction ?? "up");
+      this.publish();
     }
   }
 
-  private publish(direction: "up" | "down"): void {
-    this.callbacks.onData(
-      projectOrderBookData(
-        this.book,
-        this.aggregation,
-        this.ticker?.price ?? null,
-        direction,
-      ),
+  private publish(): void {
+    const orderBookData = projectOrderBookData(
+      this.book,
+      this.aggregation,
+      this.prevMidPrice,
     );
+    this.prevMidPrice = orderBookData.mid.price;
+    this.callbacks.onOrderBookDataPublish(orderBookData);
   }
 }

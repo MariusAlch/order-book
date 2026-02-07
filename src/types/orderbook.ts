@@ -8,13 +8,12 @@ export interface OrderBookData {
   asks: OrderBookEntry[];
   bids: OrderBookEntry[];
   mid: {
-    price: string;
-    priceFormattedSecondary: string;
+    price: number;
     direction: "up" | "down";
   };
   stats: {
-    bidPct: number;
-    askPct: number;
+    bidPercentage: number;
+    askPercentage: number;
   };
 }
 

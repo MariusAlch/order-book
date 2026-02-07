@@ -23,7 +23,7 @@ export function formatTotal(value: number, rounding: boolean): string {
   });
 }
 
-export function formatPrice(
+export function formatAggregatedPrice(
   value: number,
   aggregation: AggregationLevel,
 ): string {
@@ -33,5 +33,12 @@ export function formatPrice(
   return value.toLocaleString("en-US", {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
+  });
+}
+
+export function formatPrice(value: number): string {
+  return value.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
 }

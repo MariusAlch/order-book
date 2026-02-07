@@ -24,7 +24,7 @@ export function useBinanceOrderBook({ symbol, aggregation }: Options) {
 
   useEffect(() => {
     const book = new BinanceOrderBook(symbol, aggregation, {
-      onData: setOrderBookData,
+      onOrderBookDataPublish: setOrderBookData,
     });
 
     bookRef.current = book;
@@ -34,6 +34,7 @@ export function useBinanceOrderBook({ symbol, aggregation }: Options) {
       bookRef.current = null;
       setOrderBookData(null);
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [symbol]);
 

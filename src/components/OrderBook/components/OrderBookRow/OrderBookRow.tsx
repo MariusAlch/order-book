@@ -3,7 +3,7 @@ import type {
   AggregationLevel,
   DepthVisualization,
 } from "types/orderbook";
-import { formatPrice, formatTotal } from "utils/format";
+import { formatAggregatedPrice, formatTotal } from "utils/format";
 import { colors } from "constants/colors";
 import {
   RowWrapper,
@@ -54,7 +54,7 @@ export function OrderBookRow({
       <DepthBar style={{ width: `${depthPct}%`, backgroundColor: color.bar }} />
       <Content>
         <PriceCell style={{ color: color.text }}>
-          {formatPrice(entry.price, aggregation)}
+          {formatAggregatedPrice(entry.price, aggregation)}
         </PriceCell>
         <AmountCell>{entry.amount.toFixed(5).replace(/\.?0+$/, "")}</AmountCell>
         <TotalCell>{formatTotal(entry.total, rounding)}</TotalCell>
