@@ -1,10 +1,5 @@
 import { useState, useCallback } from "react";
-import type {
-  OrderBookEntry,
-  ViewMode,
-  AggregationLevel,
-  OrderBookSettings,
-} from "types/orderbook";
+import type { OrderBookEntry, OrderBookSettings } from "types/orderbook";
 import { parseMarketSymbol } from "utils/orderbook";
 import { useBinanceOrderBook } from "hooks/useBinanceOrderBook";
 import {
@@ -33,17 +28,19 @@ import {
 
 const DEFAULT_SETTINGS: OrderBookSettings = {
   market: "BTC/USDT",
+  viewMode: "both",
+  aggregation: "0.01",
   showBuySellRatio: true,
   rounding: true,
   depthVisualization: "amount",
 };
 
 export function OrderBook() {
-  const [viewMode, setViewMode] = useState<ViewMode>("both");
-  const [aggregation, setAggregation] = useState<AggregationLevel>("0.01");
   const [settings, setSettings] = useState<OrderBookSettings>(DEFAULT_SETTINGS);
   const [hoveredAskIndex, setHoveredAskIndex] = useState<number | null>(null);
   const [hoveredBidIndex, setHoveredBidIndex] = useState<number | null>(null);
+
+  const { viewMode, aggregation } = settings;
 
   const { orderBookData } = useBinanceOrderBook({
     symbol: settings.market,
@@ -86,8 +83,16 @@ export function OrderBook() {
       </Header>
 
       <Controls>
-        <ViewModeSelector value={viewMode} onChange={setViewMode} />
-        <AggregationDropdown value={aggregation} onChange={setAggregation} />
+        <ViewModeSelector
+          value={viewMode}
+          onChange={(viewMode) => setSettings((s) => ({ ...s, viewMode }))}
+        />
+        <AggregationDropdown
+          value={aggregation}
+          onChange={(aggregation) =>
+            setSettings((s) => ({ ...s, aggregation }))
+          }
+        />
       </Controls>
 
       <ColumnHeaders>

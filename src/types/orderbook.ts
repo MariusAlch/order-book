@@ -23,6 +23,8 @@ export type DepthVisualization = "amount" | "cumulative";
 
 export interface OrderBookSettings {
   market: MarketSymbol;
+  viewMode: ViewMode;
+  aggregation: AggregationLevel;
   showBuySellRatio: boolean;
   rounding: boolean;
   depthVisualization: DepthVisualization;
